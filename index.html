@@ -44,31 +44,7 @@
             box-sizing: border-box;
             transition: background 0.3s ease;
         }
-
-        /* PASSWORD LOCK SCREEN OVERLAY */
-        #lockScreen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-gradient);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            box-sizing: border-box;
-        }
-        .lock-card {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            width: 100%;
-            max-width: 360px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .app-container {
+.app-container {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             padding: 20px 16px;
@@ -134,6 +110,34 @@
         }
 
         .tab-btn.active {
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .role-btns {
+            display: flex;
+            background: var(--tab-bg);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 4px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 10px 6px;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            font-size: 12.5px;
+            cursor: pointer;
+            border-radius: 10px;
+            color: var(--text-muted);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .role-btn.active {
             background: var(--card-bg);
             color: var(--primary);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
@@ -322,28 +326,258 @@
         .section-view.active {
             animation: fadeIn 0.25s ease;
         }
+
+        /* Scrolling policy note ticker */
+        .notice-ticker {
+            margin: 0 0 18px 0;
+            overflow: hidden;
+            border: 1px solid #f59e0b;
+            background: #fffbeb;
+            border-radius: 12px;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        .notice-ticker-track {
+            display: inline-block;
+            padding: 10px 0;
+            padding-left: 100%;
+            animation: noticeScroll 38s linear infinite;
+            color: #92400e;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        .notice-ticker-track span {
+            margin-right: 70px;
+        }
+        @keyframes noticeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        .total-care-note {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #f59e0b;
+            background: #fffbeb;
+            color: #78350f;
+            font-size: 12px;
+        }
+        .total-care-note-title {
+            font-weight: 800;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .total-care-plan-name {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .copay-heading {
+            font-weight: 700;
+        }
+        .copay-amount {
+            font-size: 16px;
+            font-weight: 900;
+            margin-top: 3px;
+        }
+        .copay-note {
+            margin-top: 6px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+    
+        /* ===== MODERN COLORFUL UI + LOGIN LOCK ===== */
+        .app-container { display: none !important; }
+        body.unlocked .app-container { display: block !important; }
+        .login-screen {
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+            padding: 28px 22px;
+            border-radius: 28px;
+            background: rgba(255,255,255,.94);
+            border: 1px solid rgba(255,255,255,.9);
+            box-shadow: 0 24px 70px rgba(30,41,59,.18), 0 4px 18px rgba(99,102,241,.12);
+            backdrop-filter: blur(18px);
+            text-align: center;
+        }
+        .login-logo {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 14px;
+            border-radius: 20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:32px;
+            background: linear-gradient(135deg,#4f46e5,#7c3aed 52%,#0ea5e9);
+            box-shadow: 0 12px 30px rgba(79,70,229,.28);
+        }
+        .login-title { margin:0; font-size:24px; font-weight:900; color:#172554; }
+        .login-subtitle { margin:6px 0 20px; font-size:13px; color:#64748b; }
+        .login-input {
+            width:100%; box-sizing:border-box; padding:13px 14px; border-radius:14px;
+            border:1px solid #dbe1ea; background:#fff; color:#0f172a; outline:none;
+            font-size:15px; margin-bottom:12px;
+        }
+        .login-input:focus { border-color:#6366f1; box-shadow:0 0 0 4px rgba(99,102,241,.12); }
+        .login-btn {
+            width:100%; border:0; border-radius:14px; padding:13px; cursor:pointer;
+            color:#fff; font-size:15px; font-weight:800;
+            background:linear-gradient(135deg,#4f46e5,#7c3aed,#0ea5e9);
+            box-shadow:0 10px 24px rgba(79,70,229,.25);
+        }
+        .login-error { min-height:18px; margin-top:9px; color:#dc2626; font-size:12px; font-weight:700; }
+        body.dark-mode .login-screen { background:rgba(15,23,42,.96); border-color:#334155; }
+        body.dark-mode .login-title { color:#f8fafc; }
+        body.dark-mode .login-input { background:#0f172a; border-color:#475569; color:#f8fafc; }
+
+        body {
+            min-height: 100vh;
+            padding: 18px 12px;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(99,102,241,.20), transparent 28%),
+                radial-gradient(circle at 90% 15%, rgba(14,165,233,.18), transparent 25%),
+                radial-gradient(circle at 50% 100%, rgba(236,72,153,.14), transparent 30%),
+                linear-gradient(135deg,#eef2ff 0%,#f8fafc 48%,#ecfeff 100%);
+        }
+        .app-container {
+            max-width: 460px;
+            padding: 18px;
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 28px;
+            background: rgba(255,255,255,.90);
+            box-shadow: 0 24px 70px rgba(30,41,59,.16), 0 4px 18px rgba(99,102,241,.10);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+        .header {
+            margin: -18px -18px 16px;
+            padding: 18px;
+            background: linear-gradient(135deg,#4f46e5,#7c3aed 52%,#0ea5e9);
+            color: #fff;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            width: 150px; height: 150px;
+            right: -55px; top: -75px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.14);
+        }
+        h2 { color:#fff; font-size:24px; letter-spacing:-.7px; position:relative; z-index:1; }
+        .settings-icon {
+            background: rgba(255,255,255,.18);
+            color:#fff;
+            border:1px solid rgba(255,255,255,.25);
+            box-shadow:0 8px 18px rgba(0,0,0,.12);
+            position:relative; z-index:2;
+        }
+        .tab-btns, .role-btns {
+            background: linear-gradient(135deg,#eef2ff,#f0fdfa);
+            border:1px solid #e0e7ff;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+        }
+        .tab-btn.active {
+            color:#fff;
+            background:linear-gradient(135deg,#4f46e5,#7c3aed);
+            box-shadow:0 7px 18px rgba(79,70,229,.25);
+        }
+        .role-btn.active {
+            color:#fff;
+            background:linear-gradient(135deg,#0891b2,#2563eb);
+            box-shadow:0 7px 18px rgba(37,99,235,.22);
+        }
+        label { color:#334155; font-weight:800; }
+        select,input {
+            border:1.5px solid #dbe4f0;
+            background:linear-gradient(180deg,#fff,#f8fbff);
+            box-shadow:0 3px 10px rgba(15,23,42,.035);
+        }
+        select:focus,input:focus {
+            border-color:#6366f1;
+            box-shadow:0 0 0 4px rgba(99,102,241,.13),0 5px 15px rgba(99,102,241,.08);
+        }
+        .btn {
+            background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#2563eb) !important;
+            border-radius:15px;
+            box-shadow:0 10px 24px rgba(79,70,229,.25);
+        }
+        .btn:hover { filter:brightness(1.04); transform:translateY(-1px); }
+        .result {
+            background:linear-gradient(145deg,#f8faff,#ffffff 55%,#f0fdfa);
+            border:1px solid #dbeafe;
+            border-radius:18px;
+            box-shadow:0 12px 30px rgba(15,23,42,.07);
+        }
+        .result p { padding:7px 0; border-bottom:1px dashed #e2e8f0; }
+        .result p:last-of-type { border-bottom:0; }
+        .result > p:nth-child(1) span { color:#4f46e5; }
+        .result > p:nth-child(2) span { color:#0891b2; }
+        .result > p:nth-child(7) span { color:#7c3aed; }
+        .total-care-note {
+            background:linear-gradient(135deg,#fff7ed,#fefce8 55%,#ecfeff);
+            border:1px solid #fbbf24;
+            box-shadow:0 8px 20px rgba(245,158,11,.10);
+        }
+        .notice-ticker {
+            border:1px solid #fbbf24;
+            background:linear-gradient(90deg,#fff7ed,#fffbeb,#ecfeff);
+            box-shadow:0 6px 16px rgba(245,158,11,.08);
+        }
+        .modal-content {
+            border:1px solid #dbeafe;
+            box-shadow:0 25px 70px rgba(15,23,42,.25);
+        }
+        .settings-box {
+            background:linear-gradient(135deg,#f8faff,#f0fdfa);
+            border-color:#c7d2fe;
+        }
+        .form-group { position:relative; }
+        @media (max-width:480px) {
+            body { padding:10px; }
+            .app-container { border-radius:22px; padding:15px; }
+            .header { margin:-15px -15px 15px; padding:16px 15px; }
+            h2 { font-size:21px; }
+        }
+        body.dark-mode {
+            background:radial-gradient(circle at 10% 10%,rgba(99,102,241,.22),transparent 28%),linear-gradient(135deg,#0b1020,#111827 55%,#0f172a);
+        }
+        body.dark-mode .app-container { background:rgba(15,23,42,.94); border-color:#334155; }
+        body.dark-mode label { color:#e2e8f0; }
+        body.dark-mode select, body.dark-mode input { background:#0f172a; border-color:#475569; color:#f8fafc; }
+        body.dark-mode .result { background:linear-gradient(145deg,#111827,#0f172a); border-color:#334155; }
+
     </style>
 </head>
 <body>
 
-<!-- PASSWORD LOCK SCREEN -->
-<div id="lockScreen">
-    <div class="lock-card">
-        <h3 style="margin-top:0; color:var(--text-main); font-size:20px;">🔒 Enter Password</h3>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Access secure calculator app</p>
-        <div class="form-group">
-            <input type="password" id="passInput" placeholder="Enter Password" style="text-align:center; font-size:18px; letter-spacing:2px;">
-        </div>
-        <button class="btn" onclick="checkPassword()">Unlock App</button>
-        <p id="lockError" style="color:#ef4444; font-size:12px; margin-top:10px; font-weight:600;"></p>
-    </div>
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-logo">🔐</div>
+    <h1 class="login-title">Smart Calculator</h1>
+    <p class="login-subtitle">Please enter the login password to continue</p>
+    <input class="login-input" id="loginPassword" type="password" placeholder="Enter login password" autocomplete="off" onkeydown="if(event.key==='Enter') loginApp()">
+    <button class="login-btn" onclick="loginApp()">🔓 Login</button>
+    <div class="login-error" id="loginError"></div>
 </div>
 
 <!-- MAIN APP CONTAINER -->
 <div class="app-container" id="appContainer">
     <div class="header">
         <h2>Smart Calculator</h2>
-        <button class="settings-icon" onclick="requestSettingsAccess()" title="Settings">⚙️</button>
+        <button class="settings-icon" onclick="openSettingsWithPassword()" title="Settings">⚙️</button>
+    </div>
+
+    <div class="notice-ticker" aria-label="Important policy notes">
+        <div class="notice-ticker-track">
+            <span>NOTE - 1. FOLLOW ALL THE OFFER VSP END DATES STRICTLY.</span>
+            <span>2. NO FURTHER DISCRETION THAN ABOVE FOR ANY REFERENCES/VIP ETC, ENSURE THE CATEGORY OF GUEST IS DETERMINED BEFORE QUOTING ABOVE DISCRETION.</span>
+            <span>3. STRICTLY AVOID OVER DISCOUNTING ON LAPTOPS WITH VSP LESS THAN 70000/-.</span>
+            <span>4. MRP GAPS TO TO BE CHECKED ON REGULAR BASIS.</span>
+        </div>
     </div>
 
     <!-- Navigation Tabs -->
@@ -354,6 +588,14 @@
 
     <!-- 1. PRICE CALCULATOR SECTION -->
     <div id="calcTab" class="section-view active">
+        <div class="form-group">
+            <label>Select Role:</label>
+            <div class="role-btns">
+                <button type="button" class="role-btn active" id="roleBtnStaff" onclick="setRole('staff', this)">VS Staff</button>
+                <button type="button" class="role-btn" id="roleBtnManager" onclick="setRole('manager', this)">VS Manager</button>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="brand">Select Brand / Category:</label>
             <select id="brand" onchange="updateOptions()">
@@ -408,6 +650,7 @@
         <button class="btn" onclick="calculatePrice()">Calculate Total</button>
 
         <div class="result" id="resultBox" style="display:none;">
+            <p>Role Used: <span id="resRole">-</span></p>
             <p>STORE DISCOUNT VOUCHER: <span id="resPercent">-</span></p>
             <p>Max Discount Amt: <span>₹<span id="resDiscountAmt">-</span></span></p>
             <p>Final Price (Excl. Acc/EWS): <span>₹<span id="resFinalPrice">-</span></span></p>
@@ -415,10 +658,16 @@
             <p>EWS Warranty: <span>₹<span id="resEwsAmt">0</span></span></p>
             <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
             <p style="font-size: 15px; font-weight: 800;">Grand Total Price: <span style="color: var(--primary);">₹<span id="resGrandTotal">-</span></span></p>
-            <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-            <p style="font-size: 12px; color: var(--text-muted);">Team Share (50%): <span>₹<span id="resTeamShare">-</span></span></p>
-            <p style="font-size: 12px; color: var(--text-muted);">TL Share (50%): <span>₹<span id="resTlShare">-</span></span></p>
-            <button class="btn copy-btn" onclick="copyResult()">📋 Copy Details</button>
+            <div id="totalCareNote" class="total-care-note" style="display:none;">
+                <div id="ewsPlanNoteTitle" class="total-care-note-title">📌 EWS / TOTAL CARE PLAN NOTE</div>
+                <div id="totalCarePlanName" class="total-care-plan-name"></div>
+                <div id="ewsVanNote" class="copay-note" style="margin-top:0; font-weight:700;"></div>
+                <div id="totalCareCopayWrap">
+                    <div class="copay-heading">Applicable Co-pay Slab:</div>
+                    <div id="totalCareCopay" class="copay-amount"></div>
+                    <div class="copay-note">The copay will NOT be refunded if the repair incident arises due to any form of damage or in the case of battery replacement.</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -442,10 +691,11 @@
         <button class="btn" onclick="calculateGST()" style="background: #0ea5e9; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);">Calculate GST</button>
 
         <div class="result" id="gstResultBox" style="display:none;">
-            <p>Entered Amount (GST Inclusive): <span>₹<span id="resOrigAmt">-</span></span></p>
+            <p>Amount: <span>₹<span id="resOrigAmt">-</span></span></p>
             <p>GST-less / Taxable Amount: <span>₹<span id="resGstLessAmt">-</span></span></p>
-            <p>GST Amount Included: <span>₹<span id="resGstOnly">-</span></span></p>
-            <p style="font-size: 15px; font-weight: 800;">GST-less Amount: <span style="color: #0ea5e9;">₹<span id="resTotalWithGst">-</span></span></p>
+            <p>SGST 9%: <span>₹<span id="resSgst">-</span></span></p>
+            <p>CGST 9%: <span>₹<span id="resCgst">-</span></span></p>
+            <p style="font-size: 15px; font-weight: 800;">Total GST: <span style="color: #0ea5e9;">₹<span id="resGstOnly">-</span></span></p>
         </div>
     </div>
 </div>
@@ -517,30 +767,7 @@
 
         <hr style="border:0; border-top:1px solid var(--border); margin:14px 0;">
 
-        <!-- Change Password Section -->
-        <h4 style="margin:0 0 10px 0; font-size:14px;">Change App Password</h4>
-        <div class="form-group">
-            <label for="newPassInput">New Password:</label>
-            <input type="text" id="newPassInput" placeholder="Enter new password">
-        </div>
-        <button class="btn" onclick="changePassword()" style="background: #f59e0b;">Update Password</button>
-        <button class="btn" onclick="resetPasswordToDefault()" style="background: #64748b; margin-top: 8px; font-size: 13px; padding: 10px;">Reset to Default (25061998)</button>
-
         <p id="saveMsg" style="font-size: 13px; color: #10b981; text-align: center; margin-top: 10px; font-weight: 600;"></p>
-    </div>
-</div>
-
-<!-- SETTINGS ACCESS PASSWORD MODAL -->
-<div class="modal" id="settingsPassModal">
-    <div class="modal-content" style="max-width: 320px; text-align:center;">
-        <button class="close-modal" onclick="closeSettingsPassModal()">✕</button>
-        <h3 style="margin-top:0; font-size:18px; font-weight:800;">🔒 Settings Locked</h3>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Enter password to access settings</p>
-        <div class="form-group">
-            <input type="password" id="settingsPassInput" placeholder="Enter Password" style="text-align:center; font-size:18px; letter-spacing:2px;">
-        </div>
-        <button class="btn" onclick="checkSettingsPassword()">Unlock Settings</button>
-        <p id="settingsPassError" style="color:#ef4444; font-size:12px; margin-top:10px; font-weight:600;"></p>
     </div>
 </div>
 
@@ -548,8 +775,8 @@
     let customModels = JSON.parse(localStorage.getItem('customModels')) || [];
     let customPercentages = JSON.parse(localStorage.getItem('customPercentages')) || {};
     let calcHistory = JSON.parse(localStorage.getItem('calcHistory')) || [];
-    let appPassword = localStorage.getItem('appPassword') || '25061998';
     let isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+    let selectedRole = 'staff'; // 'staff' = half discretion, 'manager' = full discretion (for closure)
 
     window.onload = function() {
         if (isDarkMode) {
@@ -561,40 +788,30 @@
         renderHistory();
     };
 
-    function checkPassword() {
-        const val = document.getElementById('passInput').value;
-        if (val === appPassword) {
-            document.getElementById('lockScreen').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'block';
+    const LOGIN_PASSWORD = 'Vsitsept@2026';
+    const SETTINGS_PASSWORD = 'Changes@2627';
+
+    function loginApp() {
+        const input = document.getElementById('loginPassword');
+        const error = document.getElementById('loginError');
+        if (input.value === LOGIN_PASSWORD) {
+            document.body.classList.add('unlocked');
+            document.getElementById('loginScreen').style.display = 'none';
+            error.innerText = '';
+            input.value = '';
         } else {
-            document.getElementById('lockError').innerText = 'Incorrect Password! Try again.';
+            error.innerText = 'Incorrect password. Please try again.';
+            input.value = '';
+            input.focus();
         }
     }
 
-    // Settings access is gated behind its own password (kept encoded, not plain text)
-    function _getSettingsPass() {
-        // Base64-encoded so it isn't sitting in the source as readable plain text
-        return atob('U2FudG9zaEAyMzA5');
-    }
-
-    function requestSettingsAccess() {
-        document.getElementById('settingsPassInput').value = '';
-        document.getElementById('settingsPassError').innerText = '';
-        document.getElementById('settingsPassModal').classList.add('active');
-        setTimeout(() => document.getElementById('settingsPassInput').focus(), 50);
-    }
-
-    function closeSettingsPassModal() {
-        document.getElementById('settingsPassModal').classList.remove('active');
-    }
-
-    function checkSettingsPassword() {
-        const val = document.getElementById('settingsPassInput').value;
-        if (val === _getSettingsPass()) {
-            closeSettingsPassModal();
+    function openSettingsWithPassword() {
+        const password = prompt('Enter Settings Password:');
+        if (password === SETTINGS_PASSWORD) {
             toggleSettings(true);
-        } else {
-            document.getElementById('settingsPassError').innerText = 'Incorrect Password! Try again.';
+        } else if (password !== null) {
+            alert('Incorrect Settings Password.');
         }
     }
 
@@ -613,6 +830,12 @@
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
         
         document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    function setRole(role, btnElement) {
+        selectedRole = role;
+        document.querySelectorAll('.role-btn').forEach(el => el.classList.remove('active'));
         btnElement.classList.add('active');
     }
 
@@ -649,24 +872,6 @@
         customPercentages[key] = val;
         localStorage.setItem('customPercentages', JSON.stringify(customPercentages));
         showMsg('Percentage updated successfully!');
-    }
-
-    function changePassword() {
-        const newPass = document.getElementById('newPassInput').value.trim();
-        if (!newPass) {
-            alert('Password cannot be empty.');
-            return;
-        }
-        appPassword = newPass;
-        localStorage.setItem('appPassword', newPass);
-        document.getElementById('newPassInput').value = '';
-        showMsg('Password updated successfully!');
-    }
-
-    function resetPasswordToDefault() {
-        appPassword = '25061998';
-        localStorage.setItem('appPassword', '25061998');
-        showMsg('Password reset to default (25061998)');
     }
 
     function showMsg(txt) {
@@ -718,14 +923,17 @@
 
         if (laptopBrands.includes(brand)) {
             ewsSelect.innerHTML += `
-                <option value="1">1 Year Laptop EWS</option>
-                <option value="2">2 Years Laptop EWS</option>
-                <option value="laptop_ext">Laptop Extended Warranty (5%)</option>
-                <option value="laptop_total">Laptop Total Care (8%)</option>
+                <option value="1">1 Year Laptop Hardware EWS</option>
+                <option value="2">2 Year Laptop Hardware EWS</option>
+                <option value="tc1">1 Year Laptop Total Care Plan</option>
+                <option value="tc2">2 Years Laptop Total Care Plan</option>
+                <option value="tc3">3 Years Laptop Total Care Plan</option>
             `;
         } else if (printerBrands.includes(brand)) {
+            // Printer selection shows ONLY printer EWS plans (1 Year / 2 Years).
             ewsSelect.innerHTML += `
-                <option value="printer_ext">Printer Extended Warranty</option>
+                <option value="printer1">1 Year Printer EWS</option>
+                <option value="printer2">2 Years Printer EWS</option>
             `;
         }
 
@@ -791,21 +999,152 @@
         return customPercentages[key] !== undefined ? customPercentages[key] : defaultVal;
     }
 
+    const laptopTotalCareTable = [
+        [0, 15000, 599, 899, 1199],
+        [15001, 20000, 1309, 1929, 2629],
+        [20001, 30000, 1879, 2749, 3749],
+        [30001, 40000, 2629, 3849, 5249],
+        [40001, 50000, 3379, 4949, 6749],
+        [50001, 60000, 4129, 6049, 8249],
+        [60001, 70000, 4879, 7149, 9749],
+        [70001, 80000, 5629, 8249, 11249],
+        [80001, 90000, 6379, 9349, 12749],
+        [90001, 100000, 7129, 10449, 14249],
+        [100001, 125000, 8439, 12379, 16879],
+        [125001, 150000, 10309, 15129, 20629],
+        [150001, 175000, 12189, 17879, 24379],
+        [175001, 200000, 14059, 20629, 28129],
+        [200001, 225000, 15939, 23379, 31879],
+        [225001, 250000, 17809, 26129, 35629],
+        [250001, 275000, 19689, 28879, 39379],
+        [275001, 300000, 21559, 31629, 43129]
+    ];
+
+    // Laptop Total Care data exactly as per the supplied Onsitego table.
+    // Columns: From Price, To Price, 1Y Price, 2Y Price, 3Y Price.
+    const laptopTotalCareVanTable = [
+        [0, 15000, 198452, 599, 198470, 899, 198488, 1199],
+        [15001, 20000, 198453, 1309, 198471, 1929, 198489, 2629],
+        [20001, 30000, 198454, 1879, 198472, 2749, 198490, 3749],
+        [30001, 40000, 198455, 2629, 198473, 3849, 198491, 5249],
+        [40001, 50000, 198456, 3379, 198474, 4949, 198492, 6749],
+        [50001, 60000, 198457, 4129, 198475, 6049, 198493, 8249],
+        [60001, 70000, 198458, 4879, 198476, 7149, 198494, 9749],
+        [70001, 80000, 198459, 5629, 198477, 8249, 198495, 11249],
+        [80001, 90000, 198460, 6379, 198478, 9349, 198496, 12749],
+        [90001, 100000, 198461, 7129, 198479, 10449, 198497, 14249],
+        [100001, 125000, 198462, 8439, 198480, 12379, 198498, 16879],
+        [125001, 150000, 198463, 10309, 198481, 15129, 198499, 20629],
+        [150001, 175000, 198464, 12189, 198482, 17879, 198500, 24379],
+        [175001, 200000, 198465, 14059, 198483, 20629, 198501, 28129],
+        [200001, 225000, 198466, 15939, 198484, 23379, 198502, 31879],
+        [225001, 250000, 198467, 17809, 198485, 26129, 198503, 35629],
+        [250001, 275000, 198468, 19689, 198486, 28879, 198504, 39379],
+        [275001, 300000, 198469, 21559, 198487, 31629, 198505, 43129]
+    ];
+
+    function getTotalCareData(finalLaptopPrice, plan) {
+        if (!['tc1', 'tc2', 'tc3'].includes(plan) || !Number.isFinite(finalLaptopPrice) || finalLaptopPrice < 0) return null;
+
+        // Use the FINAL LAPTOP PRICE as the basis. Accessories are excluded.
+        for (const row of laptopTotalCareVanTable) {
+            if (finalLaptopPrice >= row[0] && finalLaptopPrice <= row[1]) {
+                const map = {
+                    tc1: { amount: row[3], van: row[2], planName: '1 Year Laptop Total Care Plan' },
+                    tc2: { amount: row[5], van: row[4], planName: '2 Years Laptop Total Care Plan' },
+                    tc3: { amount: row[7], van: row[6], planName: '3 Years Laptop Total Care Plan' }
+                };
+                return map[plan];
+            }
+        }
+        return null;
+    }
+
+    function getCopayAmount(finalLaptopPrice) {
+        // Co-pay is also based ONLY on the FINAL LAPTOP PRICE, never on
+        // accessories, Total Care price, or Grand Total.
+        if (!Number.isFinite(finalLaptopPrice) || finalLaptopPrice < 0) return null;
+        if (finalLaptopPrice <= 50000) return 999;
+        if (finalLaptopPrice <= 100000) return 1999;
+        if (finalLaptopPrice <= 200000) return 3999;
+        if (finalLaptopPrice <= 300000) return 6999;
+        return null;
+    }
+
+    // Laptop Hardware EWS data exactly as per the supplied Onsitego table.
+    // Columns: From Price, To Price, 1Y VAN, 1Y Price, 2Y VAN, 2Y Price.
+    const laptopHardwareEwsVanTable = [
+        [0, 15000, 136381, 1055, 136391, 1424],
+        [15001, 20000, 136382, 1477, 136392, 1993],
+        [20001, 30000, 136383, 1699, 136393, 2699],
+        [30001, 40000, 136384, 2099, 136394, 3149],
+        [40001, 50000, 138788, 2699, 138802, 4049],
+        [50001, 60000, 138789, 3299, 138803, 4949],
+        [60001, 70000, 138790, 3899, 138804, 5849],
+        [70001, 80000, 138791, 4499, 138805, 6749],
+        [80001, 90000, 138792, 5099, 138806, 7649],
+        [90001, 100000, 138793, 5699, 138807, 8549],
+        [100001, 125000, 138794, 6749, 138808, 10129],
+        [125001, 150000, 138795, 8249, 138809, 12379],
+        [150001, 175000, 138796, 9749, 138810, 14629],
+        [175001, 200000, 138797, 11249, 138811, 16879],
+        [200001, 225000, 138798, 12749, 138812, 19129],
+        [225001, 250000, 138799, 14249, 138813, 21379],
+        [250001, 275000, 138800, 15749, 138814, 23629],
+        [275001, 300000, 138801, 17249, 138815, 25879]
+    ];
+
+    function getHardwareEwsData(vsp, plan) {
+        if (!['1', '2'].includes(plan) || !Number.isFinite(vsp) || vsp < 0) return null;
+        for (const row of laptopHardwareEwsVanTable) {
+            if (vsp >= row[0] && vsp <= row[1]) {
+                return plan === '1'
+                    ? { amount: row[3], van: row[2], planName: '1 Year Laptop Hardware EWS' }
+                    : { amount: row[5], van: row[4], planName: '2 Year Laptop Hardware EWS' };
+            }
+        }
+        return null;
+    }
+
+    // Printer Extended Warranty data exactly as per the supplied Onsitego table.
+    // Columns: From Price, To Price, 1Y VAN, 1Y Price, 2Y VAN, 2Y Price.
+    const printerEwsVanTable = [
+        [5000, 10000, 136458, 633, 136466, 854],
+        [10001, 15000, 136459, 869, 136467, 1249],
+        [15001, 20000, 136460, 1219, 136468, 1749],
+        [20001, 30000, 136461, 1749, 136469, 2499],
+        [30001, 40000, 136462, 2449, 136470, 3499],
+        [40001, 50000, 138856, 3149, 138862, 4499],
+        [50001, 60000, 138857, 3839, 138863, 5499],
+        [60001, 70000, 138858, 4539, 138864, 6499],
+        [70001, 80000, 138859, 5239, 138865, 7499],
+        [80001, 90000, 138860, 5939, 138866, 8499],
+        [90001, 100000, 138861, 6639, 138867, 9499]
+    ];
+
+    function getPrinterEwsData(vsp, plan) {
+        if (!['printer1', 'printer2'].includes(plan) || !Number.isFinite(vsp) || vsp < 0) return null;
+        for (const row of printerEwsVanTable) {
+            if (vsp >= row[0] && vsp <= row[1]) {
+                return plan === 'printer1'
+                    ? { amount: row[3], van: row[2], planName: '1 Year Printer EWS' }
+                    : { amount: row[5], van: row[4], planName: '2 Years Printer EWS' };
+            }
+        }
+        return null;
+    }
+
     function getEwsPrice(vsp, plan) {
         if (plan === "0") return 0;
 
-        if (plan === "printer_ext") {
-            if (vsp <= 10000) return 799;
-            if (vsp <= 20000) return 1299;
-            return 1999;
-        }
-        if (plan === "laptop_ext") {
-            return Math.round(vsp * 0.05);
-        }
-        if (plan === "laptop_total") {
-            return Math.round(vsp * 0.08);
-        }
+        const printerEwsData = getPrinterEwsData(vsp, plan);
+        if (printerEwsData) return printerEwsData.amount;
 
+        // 1/2 Year Laptop Hardware EWS — amount is taken from the supplied Onsitego slab table.
+        const hardwareEwsData = getHardwareEwsData(vsp, plan);
+        if (hardwareEwsData) return hardwareEwsData.amount;
+
+        // Fallback price table for the original 1/2 Year hardware EWS slabs.
         const ewsTable = [
             [0, 15000, 1055, 1424],
             [15001, 20000, 1477, 1993],
@@ -827,14 +1166,14 @@
             [275001, 300000, 17249, 25879]
         ];
 
-        for (let row of ewsTable) {
+        for (const row of ewsTable) {
             if (vsp >= row[0] && vsp <= row[1]) {
                 return plan === "1" ? row[2] : row[3];
             }
         }
-        
+
         if (vsp > 300000) {
-            let lastRow = ewsTable[ewsTable.length - 1];
+            const lastRow = ewsTable[ewsTable.length - 1];
             return plan === "1" ? lastRow[2] : lastRow[3];
         }
 
@@ -858,7 +1197,7 @@
 
         const vsp = parseFloat(vspInput);
         const accessories = accessoriesInput ? parseFloat(accessoriesInput) : 0;
-        const ewsAmt = getEwsPrice(vsp, ewsPlan);
+        let ewsAmt = 0;
 
         let discountPercent = 0;
         
@@ -884,22 +1223,70 @@
             else if (subCategoryVal === 'desktop') discountPercent = getStoredPercent('desktop', 3);
             else if (subCategoryVal === 'printer') discountPercent = getStoredPercent('printer', 3);
             else if (subCategoryVal === 'tablet') discountPercent = getStoredPercent('tablet', 3);
+
+            // As per policy: VS Staff/Team Member gets HALF of the discretion,
+            // balance (full) is only for VS Manager/TL to use for closure.
+            if (selectedRole === 'staff') {
+                discountPercent = discountPercent / 2;
+            }
         }
 
         const discountAmount = (vsp * discountPercent) / 100;
         const finalPrice = vsp - discountAmount;
-        const grandTotal = finalPrice + accessories + ewsAmt;
-        const teamShare = discountAmount / 2;
-        const tlShare = discountAmount / 2;
 
+        // Total Care must be calculated on the FINAL LAPTOP PRICE after discount.
+        // Accessories are never included in the Total Care price/care-plan slab.
+        // Existing Hardware EWS/Printer EWS continues to use the original VSP basis.
+        const totalCareDataForFinalPrice = getTotalCareData(finalPrice, ewsPlan);
+        if (totalCareDataForFinalPrice) {
+            ewsAmt = totalCareDataForFinalPrice.amount;
+        } else {
+            ewsAmt = getEwsPrice(vsp, ewsPlan);
+        }
+
+        const grandTotal = finalPrice + accessories + ewsAmt;
+
+        document.getElementById('resRole').innerText = brand.startsWith('custom_') ? 'Custom Model' : (selectedRole === 'staff' ? 'VS Staff' : 'VS Manager');
         document.getElementById('resPercent').innerText = `${discountPercent}`;
         document.getElementById('resDiscountAmt').innerText = discountAmount.toFixed(2);
         document.getElementById('resFinalPrice').innerText = finalPrice.toFixed(2);
         document.getElementById('resAccAmt').innerText = accessories.toFixed(2);
         document.getElementById('resEwsAmt').innerText = ewsAmt.toFixed(2);
         document.getElementById('resGrandTotal').innerText = grandTotal.toFixed(2);
-        document.getElementById('resTeamShare').innerText = teamShare.toFixed(2);
-        document.getElementById('resTlShare').innerText = tlShare.toFixed(2);
+
+        const totalCareNote = document.getElementById('totalCareNote');
+        const totalCarePlanName = document.getElementById('totalCarePlanName');
+        const totalCareCopay = document.getElementById('totalCareCopay');
+        const totalCareCopayWrap = document.getElementById('totalCareCopayWrap');
+        const ewsPlanNoteTitle = document.getElementById('ewsPlanNoteTitle');
+        const vanNote = document.getElementById('ewsVanNote');
+        const totalCareData = totalCareDataForFinalPrice;
+        const hardwareEwsData = getHardwareEwsData(vsp, ewsPlan);
+        const printerEwsData = getPrinterEwsData(vsp, ewsPlan);
+
+        if (totalCareData) {
+            const copay = getCopayAmount(finalPrice);
+            totalCareNote.style.display = 'block';
+            ewsPlanNoteTitle.innerText = '📌 TOTAL CARE PLAN NOTE';
+            totalCarePlanName.innerText = totalCareData.planName;
+            vanNote.innerText = `VAN No: ${totalCareData.van}`;
+            totalCareCopayWrap.style.display = 'block';
+            totalCareCopay.innerText = copay !== null ? `→ Co-pay ₹${copay.toLocaleString('en-IN')}` : '→ Co-pay not available';
+        } else if (hardwareEwsData) {
+            totalCareNote.style.display = 'block';
+            ewsPlanNoteTitle.innerText = '📌 EWS PLAN NOTE';
+            totalCarePlanName.innerText = hardwareEwsData.planName;
+            vanNote.innerText = `VAN No: ${hardwareEwsData.van}`;
+            totalCareCopayWrap.style.display = 'none';
+        } else if (printerEwsData) {
+            totalCareNote.style.display = 'block';
+            ewsPlanNoteTitle.innerText = '📌 PRINTER EWS PLAN NOTE';
+            totalCarePlanName.innerText = printerEwsData.planName;
+            vanNote.innerText = `VAN No: ${printerEwsData.van}`;
+            totalCareCopayWrap.style.display = 'none';
+        } else {
+            totalCareNote.style.display = 'none';
+        }
 
         document.getElementById('resultBox').style.display = 'block';
 
@@ -918,18 +1305,21 @@
             return;
         }
 
-        // User enters the final GST-inclusive amount.
-        // Reverse-calculate the taxable/GST-less value as per the selected GST rate.
+        // Amount entered is GST-inclusive. Reverse-calculate taxable amount.
         const taxableAmount = amt / (1 + rate / 100);
         const gstAmt = amt - taxableAmount;
+        const halfRate = rate / 2;
+        const sgstAmt = gstAmt / 2;
+        const cgstAmt = gstAmt / 2;
 
         document.getElementById('resOrigAmt').innerText = amt.toFixed(2);
         document.getElementById('resGstLessAmt').innerText = taxableAmount.toFixed(2);
+        document.getElementById('resSgst').innerText = sgstAmt.toFixed(2);
+        document.getElementById('resCgst').innerText = cgstAmt.toFixed(2);
         document.getElementById('resGstOnly').innerText = gstAmt.toFixed(2);
-        document.getElementById('resTotalWithGst').innerText = taxableAmount.toFixed(2);
         document.getElementById('gstResultBox').style.display = 'block';
 
-        const historyItem = `GST Inclusive (${rate}%): ₹${amt} -> GST-less: ₹${taxableAmount.toFixed(2)} | GST: ₹${gstAmt.toFixed(2)}`;
+        const historyItem = `GST Inclusive (${rate}%): ₹${amt} -> Taxable: ₹${taxableAmount.toFixed(2)} | SGST ${halfRate}%: ₹${sgstAmt.toFixed(2)} | CGST ${halfRate}%: ₹${cgstAmt.toFixed(2)} | Total GST: ₹${gstAmt.toFixed(2)}`;
         calcHistory.unshift(historyItem);
         if (calcHistory.length > 20) calcHistory.pop();
         localStorage.setItem('calcHistory', JSON.stringify(calcHistory));
@@ -955,11 +1345,6 @@
         showMsg('History cleared successfully!');
     }
 
-    function copyResult() {
-        const text = `STORE DISCOUNT VOUCHER: ${document.getElementById('resPercent').innerText}\nDiscount Amt: ₹${document.getElementById('resDiscountAmt').innerText}\nFinal Price: ₹${document.getElementById('resFinalPrice').innerText}\nAccessories: ₹${document.getElementById('resAccAmt').innerText}\nEWS: ₹${document.getElementById('resEwsAmt').innerText}\nGrand Total: ₹${document.getElementById('resGrandTotal').innerText}`;
-        navigator.clipboard.writeText(text);
-        alert('Details copied to clipboard!');
-    }
 </script>
 
 </body>
