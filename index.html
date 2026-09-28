@@ -1137,44 +1137,18 @@
     function getEwsPrice(vsp, plan) {
         if (plan === "0") return 0;
 
+        // Each plan reads ONLY its own table. No cross-fallback, so a Printer /
+        // Total Care plan can never pick up a Laptop Hardware EWS price by mistake.
         const printerEwsData = getPrinterEwsData(vsp, plan);
         if (printerEwsData) return printerEwsData.amount;
 
-        // 1/2 Year Laptop Hardware EWS — amount is taken from the supplied Onsitego slab table.
         const hardwareEwsData = getHardwareEwsData(vsp, plan);
         if (hardwareEwsData) return hardwareEwsData.amount;
 
-        // Fallback price table for the original 1/2 Year hardware EWS slabs.
-        const ewsTable = [
-            [0, 15000, 1055, 1424],
-            [15001, 20000, 1477, 1993],
-            [20001, 30000, 1699, 2699],
-            [30001, 40000, 2099, 3149],
-            [40001, 50000, 2699, 4049],
-            [50001, 60000, 3299, 4949],
-            [60001, 70000, 3899, 5849],
-            [70001, 80000, 4499, 6749],
-            [80001, 90000, 5099, 7649],
-            [90001, 100000, 5699, 8549],
-            [100001, 125000, 6749, 10129],
-            [125001, 150000, 8249, 12379],
-            [150001, 175000, 9749, 14629],
-            [175001, 200000, 11249, 16879],
-            [200001, 225000, 12749, 19129],
-            [225001, 250000, 14249, 21379],
-            [250001, 275000, 15749, 23629],
-            [275001, 300000, 17249, 25879]
-        ];
-
-        for (const row of ewsTable) {
-            if (vsp >= row[0] && vsp <= row[1]) {
-                return plan === "1" ? row[2] : row[3];
-            }
-        }
-
-        if (vsp > 300000) {
-            const lastRow = ewsTable[ewsTable.length - 1];
-            return plan === "1" ? lastRow[2] : lastRow[3];
+        // Hardware EWS above the last slab (> 3,00,000) keeps the last slab price.
+        if (['1', '2'].includes(plan) && vsp > 300000) {
+            const lastRow = laptopHardwareEwsVanTable[laptopHardwareEwsVanTable.length - 1];
+            return plan === '1' ? lastRow[3] : lastRow[5];
         }
 
         return 0;
@@ -1234,14 +1208,16 @@
         const discountAmount = (vsp * discountPercent) / 100;
         const finalPrice = vsp - discountAmount;
 
-        // Total Care must be calculated on the FINAL LAPTOP PRICE after discount.
-        // Accessories are never included in the Total Care price/care-plan slab.
-        // Existing Hardware EWS/Printer EWS continues to use the original VSP basis.
-        const totalCareDataForFinalPrice = getTotalCareData(finalPrice, ewsPlan);
+        // ALL EWS plans (Hardware EWS, Printer EWS, Total Care) are decided on the
+        // FINAL PRICE (Excl. Acc/EWS) shown in the result. Accessories are never included.
+        // Math.ceil avoids gaps between slabs when the final price has paise
+        // (e.g. 60000.50 correctly falls in the 60,001+ slab).
+        const slabPrice = Math.ceil(finalPrice);
+        const totalCareDataForFinalPrice = getTotalCareData(slabPrice, ewsPlan);
         if (totalCareDataForFinalPrice) {
             ewsAmt = totalCareDataForFinalPrice.amount;
         } else {
-            ewsAmt = getEwsPrice(vsp, ewsPlan);
+            ewsAmt = getEwsPrice(slabPrice, ewsPlan);
         }
 
         const grandTotal = finalPrice + accessories + ewsAmt;
@@ -1261,8 +1237,8 @@
         const ewsPlanNoteTitle = document.getElementById('ewsPlanNoteTitle');
         const vanNote = document.getElementById('ewsVanNote');
         const totalCareData = totalCareDataForFinalPrice;
-        const hardwareEwsData = getHardwareEwsData(vsp, ewsPlan);
-        const printerEwsData = getPrinterEwsData(vsp, ewsPlan);
+        const hardwareEwsData = getHardwareEwsData(slabPrice, ewsPlan);
+        const printerEwsData = getPrinterEwsData(slabPrice, ewsPlan);
 
         if (totalCareData) {
             const copay = getCopayAmount(finalPrice);
@@ -1283,6 +1259,12 @@
             ewsPlanNoteTitle.innerText = '📌 PRINTER EWS PLAN NOTE';
             totalCarePlanName.innerText = printerEwsData.planName;
             vanNote.innerText = `VAN No: ${printerEwsData.van}`;
+            totalCareCopayWrap.style.display = 'none';
+        } else if (ewsPlan !== '0') {
+            totalCareNote.style.display = 'block';
+            ewsPlanNoteTitle.innerText = '⚠️ EWS NOT AVAILABLE';
+            totalCarePlanName.innerText = 'Selected plan is not available for this price range';
+            vanNote.innerText = '';
             totalCareCopayWrap.style.display = 'none';
         } else {
             totalCareNote.style.display = 'none';
